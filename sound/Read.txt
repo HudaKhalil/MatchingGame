@@ -1,0 +1,9 @@
+<match-sound>
+http://www.orangefreesounds.com/
+------------------------------------------------------
+<win-game>
+----------
+https://www.freesoundeffects.com/free-sounds/applause-10033/
+-------------------------------------------------------------
+<card-flip>
+https://freesound.org/people/f4ngy/sounds/240776/

@@ -1,0 +1,326 @@
+h*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+    background: #ffffff url('../img/398202-PCP2B8-416.png') no-repeat;
+    background-size: cover;
+    /*    ('https://i.ibb.co/5F3JsfR/398202-PCP2-B8-416.png'); /* Background pattern http://www.freepik.com Designed by rawpixel.com */
+    font-family: 'Coda', cursive;
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+header{
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  width: 50%;
+}
+.main-title {
+    font-family: 'Rancho', cursive;
+    font-size: 40px;
+    font-weight: 200;
+    color: #2e357f;
+    text-shadow: 2px 2px #6fa7cc;
+}
+/*
+ * Styles for the Score Panel
+ */
+.score-panel {
+    width: 50%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Rancho', cursive;
+    color: #2e357f;
+    font-size: 35px;
+    text-shadow: 2px 2px #6fa7cc;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.score-panel .stars li {
+    color: #FFD700;
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+}
+
+.timer {
+	display: inline-block;
+}
+/*
+ * Styles for the deck of cards
+ */
+.deck {
+    width: 60%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    grid-gap: 1rem;
+    background: linear-gradient(120deg, #e08fb8 0%, #6fa7cc 100%);
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    /*Added to apply 3D effect for cards*/
+    perspective: 1000px;
+}
+.deck .card {
+    height: 100%;
+    width: 70%;
+    background: #2e3d49;
+    font-size: 0;
+    color: #2e357f;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    /*Adding click effect to the active card*/
+    transform: scale(1);
+    /*Added to apply 3D effect for cards*/
+    transform-style: preserve-3d;
+    transition: transform .2s;
+}
+
+.deck .card.open {
+    background: #f7bbdd;
+    cursor: default;
+    animation-name: openCard;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: .75s;
+
+}
+
+.deck .card.show {
+    font-size: 40px;
+}
+
+.deck .card.match {
+    cursor: default;
+    background: #8dc8d0;
+    font-size: 40px;
+    animation-name: matchCard;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: .75s;
+}
+/*Adding unmatched class*/
+.deck .card.unmatched {
+	animation-name: unmatchCard;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .78s;
+  background: #e204aa;
+}
+/*Adding click effect to the active card*/
+.card:active{
+  transform: scale(0.97);
+  transition: transform .2s;
+}
+/*Adding new class to disabled cards*/
+.deck .card.disable {
+	pointer-events: none;
+}
+/*Styling Win Game Modal*/
+.overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.7);
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.overlay:target {
+	visibility: visible;
+	opacity: 1;
+}
+
+.popup {
+	margin: 70px auto;
+	padding: 20px;
+	background: #f7bbdd;
+	border-radius: 10px;
+	width: 30%;
+	position: relative;
+	transition: all 5s ease-in-out;
+  font-family: 'Rancho', cursive;
+  color: #2e357f;
+  text-shadow: 2px 2px #6fa7cc;
+  text-align: center;
+}
+.popup .close {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	transition: all 200ms;
+	font-size: 50px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.popup .close:hover {
+	color: #e204aa;
+}
+
+.popup .content-1,
+.popup .content-2 {
+	max-height: 30%;
+	overflow: auto;
+	text-align: center;
+  text-shadow: none;
+  font-size: 30px;
+}
+
+.show {
+	visibility: visible !important;
+	opacity: 100 !important;
+}
+
+#starRating li {
+	display: inline-block;
+  color: #FFD700;
+  text-shadow: 2px 2px #6fa7cc;
+}
+
+#play-again {
+	background-color: #2e357f;
+  box-shadow: #2e357f;
+	padding: 0.7rem 1rem;
+	font-size: 3rem;
+	display: block;
+	margin: 0 auto;
+	width: 50%;
+	font-family: 'Rancho', cursive;
+	color: #f7bbdd;
+	border-radius: 15px;
+}
+/*-----------Animation------------*/
+@keyframes openCard {
+  0%, from {
+  transform: perspective(200px) rotateY(180deg);
+  }
+  40% {
+  transform: perspective(200px) rotateY(-10deg);
+  }
+  70% {
+  transform: perspective(200px) rotateY(10deg);
+  }
+  100%, to {
+  transform: perspective(200px) rotateY(0deg);
+  }
+}
+
+@keyframes matchCard {
+  from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.25, 0.75, 1);
+	}
+
+	40% {
+		transform: scale3d(0.75, 1.25, 1);
+	}
+
+	50% {
+		transform: scale3d(1.15, 0.85, 1);
+	}
+
+	65% {
+		transform: scale3d(.95, 1.05, 1);
+	}
+
+	75% {
+		transform: scale3d(1.05, .95, 1);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes unmatchCard {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+		transform: scale3d(1.2, 1.2, 1.2);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+/*----------Media Queries--------*/
+@media screen and (max-width: 600px) {
+  .deck {
+  width: 80%;
+  }
+
+  header {
+    width: 98%;
+  }
+
+  .main-title {
+    font-size: 25px;
+  }
+  .score-panel{
+    font-size: 25px;
+    width: 80%;
+  }
+  .popup{
+  	margin: 30px auto;
+  	padding: 10px;
+  	width: 60%;
+  }
+  .popup .content-1,
+  .popup .content-2 {
+  	max-height: 50%;
+    font-size: 25px;
+  }
+  #play-again {
+  	font-size: 1.5rem;
+  	width: 60%;
+}
+@media screen and (min-width: 601px) {
+  .deck {
+  width: 60%;
+  }
+  .main-title {
+    font-size: 45px;
+  }
+  .score-panel{
+    width: 60%;
+    font-size: 30px;
+  }
+}
+
+/*--------------------------------*/
